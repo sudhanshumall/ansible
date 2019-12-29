@@ -1,0 +1,14 @@
+---
+- name: final validation
+  hosts: localhost
+  connection: local
+  tasks:
+  - name : waiting for 5 minutes for all the resources to be up
+    pause: 
+      minutes: 5
+
+  - uri:
+      url: http://www.sudhanshumall.com
+      return_content: yes
+    register: this
+    failed_when: "'Hello, this is index.html page' not in this.content"

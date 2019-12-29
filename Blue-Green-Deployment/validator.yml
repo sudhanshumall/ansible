@@ -3,6 +3,9 @@
   hosts: localhost
   connection: local
   tasks:
+  - name: waiting for 5 minutes for all the resources to be up
+    pause:
+      minutes: 5
   - name: validation
     ec2_elb_facts:
       region: ap-south-1
