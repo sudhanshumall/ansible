@@ -1,0 +1,15 @@
+---
+- name: Create ec2 launch config
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: ec2 lc config
+    ec2_lc: 
+      name: "{{ launch_config }}"    # this will be passed from Jenkins
+      image_id: ami-0123b531fc646552f
+      instance_type: t2.micro
+      key_name: ansible
+      security:group: ['default']
+      region: ap-south-1
+      user_data_path: /home/ansible/user_data
+      

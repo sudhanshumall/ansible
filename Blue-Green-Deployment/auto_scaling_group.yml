@@ -1,0 +1,21 @@
+---
+- name: create auto scaling group
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Creating auto scaling group
+    ec2_asg:
+      name: blueGreenASG
+      region: ap-south-1
+      load_balancers: blueGreenELB
+      availability_zones: ['ap-south-1a']
+      launch_config_name: "{{ launch_config }}"
+      min_size: 1
+      max_size: 2
+      desired_capacity: 1
+      replace_all_instances: yes
+      vpc_zone_identifier: ['subnet-016ebdfd8e9e74cd6']
+      tags:
+        - type: blueGreenASG
+      wait_for_instances: yes
+
