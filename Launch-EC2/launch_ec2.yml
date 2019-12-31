@@ -1,0 +1,38 @@
+---
+- name: Configuring the EC2 Instance
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: create a security group in "{{ region }}"
+    ec2_group:
+      name: test
+      description: testing
+      vpc_id: "{{ vpc_id }}"
+      region: "{{ region }}"
+      rules:
+        - proto: tcp
+          from_port: 80
+          to_port: 80
+          cidr_ip: 0.0.0.0/0
+    register: security_group
+  
+  - name: Launching an EC2 Instance
+    ec2:
+      instance_type: "{{ instance_type}}"
+      image: ami-0123b531fc646552f
+      wait: yes
+      region: "{{ region }}"
+      keypair: "{{ keypair }}"
+      count: "{{ count }}"
+      vpc_subnet_id: "{{ vpc_subnet_id }}"
+      group_id: "{{ security_group.group_id }}"
+      volumes:
+        - device_name: /dev/sda1
+          volume_size: "{{ volume_size }}"
+      count_tag:
+        Name: Demo
+      instance_tags:
+        Name: Demo
+    register: ec2
+  
+
