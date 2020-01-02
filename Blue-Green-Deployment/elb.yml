@@ -5,24 +5,27 @@
   tasks:
   - name: Creating ELB
     ec2_elb_lb:
-    name: blueGreenELB
-    state: present
-    region: ap-south-1
-    cross_az_load_balancing: yes
-    listeners:
-      - protocol: http
-        load_balancer_port: 80
-        instance_port: 80
-    tags: 
       name: blueGreenELB
-    security_group_ids: sg-0016f6a8a721a702b
-    zones: ap-south-1a
-    health_check:
-      ping_protocol: http
-      ping_port: 80
-      ping_path: "/index.html"
-      response_timeout: 5
-      interval: 30
-      unhealthy_threshold: 2
-      healthy_threshold: 2
-
+      state: present
+      region: ap-south-1
+      subnets: 
+        - "{{ subnet1 }}"
+        - "{{ subnet2 }}"
+      cross_az_load_balancing: yes
+      listeners:
+        - protocol: http
+          load_balancer_port: 80
+          instance_port: 80
+      tags: 
+        name: blueGreenELB
+      security_group_ids: "{{ security_group_ids }}"
+      #zones: ap-south-1a
+      health_check:
+        ping_protocol: http
+        ping_port: 80
+        ping_path: "/index.html"
+        response_timeout: 5
+        interval: 30
+        unhealthy_threshold: 2
+        healthy_threshold: 2
+    register: elb
