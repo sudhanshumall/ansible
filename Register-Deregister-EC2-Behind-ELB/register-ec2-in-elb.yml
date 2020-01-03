@@ -1,0 +1,12 @@
+---
+- name: Register EC2 instance behind ELB
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Instance register
+    local_action:
+      module: ec2_elb
+      state: present
+      ec2_elbs: blueGreenELB
+      region: ap-south-1
+      instance_id: "{{ instanceid1 }}"

@@ -1,0 +1,12 @@
+---
+- name: Deregister EC2 instance from ELB
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Instance De-register
+    local_action:
+      module: ec2_elb
+      ec2_elbs: blueGreenELB
+      instance_id: "{{ instanceid1 }}"
+      region: ap-south-1
+      state: absent
