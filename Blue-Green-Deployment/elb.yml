@@ -21,9 +21,8 @@
       security_group_ids: "{{ security_group_ids }}"
       #zones: ap-south-1a
       health_check:
-        ping_protocol: http
+        ping_protocol: tcp
         ping_port: 80
-        ping_path: "/index.html"
         response_timeout: 5
         interval: 30
         unhealthy_threshold: 2
